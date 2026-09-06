@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SmartVoltISA/COSMOS-ARCHITECTURE/schema/object_v0.1.json",
+  "title": "COSMOS Astronomical Object v0.1",
+  "type": "object",
+  "required": ["object_id", "object_class", "provenance"],
+  "properties": {
+    "object_id": {"type": "string", "minLength": 1},
+    "object_class": {"type": "string", "enum": ["planet", "star", "white_dwarf", "neutron_star", "black_hole", "compact_object", "unknown"]},
+    "mass": {
+      "type": ["object", "null"],
+      "properties": {
+        "value": {"type": "number", "exclusiveMinimum": 0},
+        "unit": {"type": "string"},
+        "err_plus": {"type": ["number", "null"], "minimum": 0},
+        "err_minus": {"type": ["number", "null"], "minimum": 0},
+        "is_limit": {"type": "boolean"}
+      },
+      "required": ["value", "unit", "is_limit"]
+    },
+    "radius": {
+      "type": ["object", "null"],
+      "properties": {
+        "value": {"type": "number", "exclusiveMinimum": 0},
+        "unit": {"type": "string"},
+        "err_plus": {"type": ["number", "null"], "minimum": 0},
+        "err_minus": {"type": ["number", "null"], "minimum": 0},
+        "is_limit": {"type": "boolean"}
+      },
+      "required": ["value", "unit", "is_limit"]
+    },
+    "derived": {
+      "type": "object",
+      "properties": {
+        "mean_density_si": {"type": ["number", "null"], "exclusiveMinimum": 0},
+        "compactness": {"type": ["number", "null"], "minimum": 0},
+        "density_err_plus": {"type": ["number", "null"], "minimum": 0},
+        "density_err_minus": {"type": ["number", "null"], "minimum": 0}
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["source", "retrieval_date"],
+      "properties": {
+        "source": {"type": "string"},
+        "retrieval_date": {"type": "string", "format": "date"},
+        "query": {"type": ["string", "null"]},
+        "reference": {"type": ["string", "null"]}
+      }
+    }
+  }
+}
