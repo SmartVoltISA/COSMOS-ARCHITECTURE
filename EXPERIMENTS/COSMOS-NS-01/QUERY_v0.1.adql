@@ -1,0 +1,42 @@
+-- COSMOS-NS-01 / NASA Exoplanet Archive / first controlled extract
+-- Purpose: obtain the confirmed-planet intersection with usable mass and radius.
+-- The exact catalogue retrieval date must be recorded in the run manifest.
+
+SELECT
+  pl_name,
+  hostname,
+  default_flag,
+  pl_bmasse,
+  pl_bmasseerr1,
+  pl_bmasseerr2,
+  pl_bmasslim,
+  pl_bmassprov,
+  pl_rade,
+  pl_radeerr1,
+  pl_radeerr2,
+  pl_radlim,
+  pl_dens,
+  pl_denserr1,
+  pl_denserr2,
+  pl_orbper,
+  pl_orbsmax,
+  tran_flag,
+  rv_flag,
+  discoverymethod,
+  disc_year,
+  disc_facility
+FROM pscomppars
+WHERE default_flag = 1
+  AND pl_bmasse IS NOT NULL
+  AND pl_bmasse > 0
+  AND pl_rade IS NOT NULL
+  AND pl_rade > 0
+  AND pl_bmasslim = 0
+  AND pl_radlim = 0
+ORDER BY pl_bmasse ASC;
+
+-- Notes:
+-- 1. This is a data-extraction query, not an anomaly-selection query.
+-- 2. No candidate threshold is applied here.
+-- 3. Mass/radius provenance must remain attached to every returned row.
+-- 4. Validate column availability against the live PSCompPars schema before execution.
